@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SafeNet | Phishing & Scam Detection</title>
+<style>
+  :root { --bg:#f4f6fb; --card:#fff; --ink:#14213d; --muted:#5c677d; --line:#e1e6ef; --accent:#2563eb;
+          --low:#16a34a; --med:#f59e0b; --high:#dc2626; }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg:#0e1525; --card:#172036; --ink:#e8ecf5; --muted:#9aa6bf; --line:#2a3552; --accent:#60a5fa; }
+  }
+  * { box-sizing: border-box; }
+  body { margin:0; font-family: system-ui, Segoe UI, Roboto, sans-serif; background:var(--bg); color:var(--ink); }
+  header { padding:28px 20px 8px; text-align:center; }
+  header h1 { margin:0; font-size:1.8rem; } header p { margin:6px 0 0; color:var(--muted); }
+  main { max-width:760px; margin:0 auto; padding:16px 20px 60px; }
+  .card { background:var(--card); border:1px solid var(--line); border-radius:14px; padding:20px; margin-top:16px; }
+  label { font-weight:600; font-size:.9rem; display:block; margin:0 0 6px; }
+  textarea, input { width:100%; padding:11px; border:1px solid var(--line); border-radius:9px; font:inherit;
+                    background:transparent; color:inherit; }
+  textarea { min-height:120px; resize:vertical; } .gap { margin-top:14px; }
+  button { margin-top:16px; background:var(--accent); color:#fff; border:0; padding:12px 22px; border-radius:9px;
+           font-weight:600; font-size:1rem; cursor:pointer; }
+  button:disabled { opacity:.6; cursor:wait; } .ghost { background:transparent; color:var(--accent); border:1px solid var(--line); margin-left:8px; }
+  .badge { display:inline-block; padding:5px 14px; border-radius:99px; color:#fff; font-weight:700; letter-spacing:.04em; }
+  .LOW { background:var(--low); } .MEDIUM { background:var(--med); } .HIGH { background:var(--high); }
+  .meter { height:14px; background:var(--line); border-radius:99px; overflow:hidden; margin:14px 0 6px; }
+  .meter > div { height:100%; width:0; transition:width .5s; }
+  .row { display:flex; gap:24px; flex-wrap:wrap; margin-top:12px; } .row div { min-width:140px; }
+  .k { color:var(--muted); font-size:.8rem; text-transform:uppercase; letter-spacing:.05em; } .v { font-weight:600; }
+  ul { padding-left:20px; margin:8px 0 0; } li { margin:4px 0; }
+  .rec { margin-top:14px; padding:12px 14px; border-radius:10px; background:var(--bg); border-left:4px solid var(--accent); }
+  .hidden { display:none; } .err { color:var(--high); margin-top:12px; }
+  footer { text-align:center; color:var(--muted); font-size:.8rem; margin-top:30px; }
+</style>
+</head>
+<body>
+<header><h1>SafeNet</h1><p>AI-powered phishing &amp; scam detection</p></header>
+<main>
+  <div class="card">
+    <label for="text">Suspicious message (optional)</label>
+    <textarea id="text" placeholder="Paste an email, SMS or chat message here..."></textarea>
+    <div class="gap"><label for="url">Suspicious URL (optional)</label>
+    <input id="url" placeholder="http://example.com/login"></div>
+    <button id="go">Analyze</button>
+    <button class="ghost" id="demo" type="button">Try an example</button>
+    <div id="err" class="err hidden"></div>
+  </div>
+
+  <div id="result" class="card hidden">
+    <span id="level" class="badge"></span>
+    <div class="meter"><div id="bar"></div></div>
+    <div class="row">
+      <div><div class="k">Risk score</div><div class="v" id="score"></div></div>
+      <div><div class="k">Threat type</div><div class="v" id="type"></div></div>
+      <div><div class="k">Text model</div><div class="v" id="tp"></div></div>
+      <div><div class="k">URL model</div><div class="v" id="up"></div></div>
+    </div>
+    <div class="rec" id="rec"></div>
+    <div id="whyBox"><div class="k" style="margin-top:16px">Why was this flagged?</div><ul id="why"></ul></div>
+  </div>
+  <footer>Decision-support prototype. Not a replacement for enterprise security controls.</footer>
+</main>
+<script>
+const $ = id => document.getElementById(id);
+const COLORS = { LOW:'var(--low)', MEDIUM:'var(--med)', HIGH:'var(--high)' };
+const pct = v => v == null ? 'n/a' : (v * 100).toFixed(0) + '%';
+
+$('demo').onclick = () => {
+  $('text').value = 'URGENT: Your PayPal account has been suspended. Verify your password immediately at http://paypal-secure-login.xyz/verify/index.php?id=4821';
+  $('url').value = '';
+};
+
+$('go').onclick = async () => {
+  const text = $('text').value, url = $('url').value;
+  $('err').classList.add('hidden');
+  $('go').disabled = true; $('go').textContent = 'Analyzing...';
+  try {
+    const res = await fetch('/analyze', { method:'POST', headers:{'Content-Type':'application/json'},
+                                           body: JSON.stringify({ text, url }) });
+    if (!res.ok) throw new Error((await res.json()).detail || 'Request failed');
+    const d = await res.json();
+    $('level').textContent = d.risk_level + ' RISK'; $('level').className = 'badge ' + d.risk_level;
+    $('bar').style.width = d.risk_score + '%'; $('bar').style.background = COLORS[d.risk_level];
+    $('score').textContent = d.risk_score + ' / 100'; $('type').textContent = d.threat_type;
+    $('tp').textContent = pct(d.signals.text_probability); $('up').textContent = pct(d.signals.url_probability);
+    $('rec').textContent = d.recommendation;
+    $('why').innerHTML = '';
+    d.reasons.forEach(r => { const li = document.createElement('li'); li.textContent = r; $('why').appendChild(li); });
+    $('whyBox').classList.toggle('hidden', d.reasons.length === 0);
+    $('result').classList.remove('hidden');
+  } catch (e) { $('err').textContent = e.message; $('err').classList.remove('hidden'); }
+  $('go').disabled = false; $('go').textContent = 'Analyze';
+};
+</script>
+</body>
+</html>
