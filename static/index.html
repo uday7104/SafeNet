@@ -1,98 +1,104 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>SafeNet | Phishing & Scam Detection</title>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#080f1d">
+<title>SafeNet | Threat Intelligence Workspace</title>
 <style>
-  :root { --bg:#f4f6fb; --card:#fff; --ink:#14213d; --muted:#5c677d; --line:#e1e6ef; --accent:#2563eb;
-          --low:#16a34a; --med:#f59e0b; --high:#dc2626; }
-  @media (prefers-color-scheme: dark) {
-    :root { --bg:#0e1525; --card:#172036; --ink:#e8ecf5; --muted:#9aa6bf; --line:#2a3552; --accent:#60a5fa; }
-  }
-  * { box-sizing: border-box; }
-  body { margin:0; font-family: system-ui, Segoe UI, Roboto, sans-serif; background:var(--bg); color:var(--ink); }
-  header { padding:28px 20px 8px; text-align:center; }
-  header h1 { margin:0; font-size:1.8rem; } header p { margin:6px 0 0; color:var(--muted); }
-  main { max-width:760px; margin:0 auto; padding:16px 20px 60px; }
-  .card { background:var(--card); border:1px solid var(--line); border-radius:14px; padding:20px; margin-top:16px; }
-  label { font-weight:600; font-size:.9rem; display:block; margin:0 0 6px; }
-  textarea, input { width:100%; padding:11px; border:1px solid var(--line); border-radius:9px; font:inherit;
-                    background:transparent; color:inherit; }
-  textarea { min-height:120px; resize:vertical; } .gap { margin-top:14px; }
-  button { margin-top:16px; background:var(--accent); color:#fff; border:0; padding:12px 22px; border-radius:9px;
-           font-weight:600; font-size:1rem; cursor:pointer; }
-  button:disabled { opacity:.6; cursor:wait; } .ghost { background:transparent; color:var(--accent); border:1px solid var(--line); margin-left:8px; }
-  .badge { display:inline-block; padding:5px 14px; border-radius:99px; color:#fff; font-weight:700; letter-spacing:.04em; }
-  .LOW { background:var(--low); } .MEDIUM { background:var(--med); } .HIGH { background:var(--high); }
-  .meter { height:14px; background:var(--line); border-radius:99px; overflow:hidden; margin:14px 0 6px; }
-  .meter > div { height:100%; width:0; transition:width .5s; }
-  .row { display:flex; gap:24px; flex-wrap:wrap; margin-top:12px; } .row div { min-width:140px; }
-  .k { color:var(--muted); font-size:.8rem; text-transform:uppercase; letter-spacing:.05em; } .v { font-weight:600; }
-  ul { padding-left:20px; margin:8px 0 0; } li { margin:4px 0; }
-  .rec { margin-top:14px; padding:12px 14px; border-radius:10px; background:var(--bg); border-left:4px solid var(--accent); }
-  .hidden { display:none; } .err { color:var(--high); margin-top:12px; }
-  footer { text-align:center; color:var(--muted); font-size:.8rem; margin-top:30px; }
+:root{color-scheme:dark;--bg:#080e1b;--panel:#101a2b;--panel2:#142138;--border:#24344e;--text:#edf4ff;--muted:#95a8c4;--blue:#4d8fff;--cyan:#4bd9dd;--green:#32d49b;--amber:#f8bb5b;--red:#ff697b}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse 65% 45% at 75% -20%,#173665 0%,transparent 75%),var(--bg);color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,sans-serif;line-height:1.5}button,input,textarea{font:inherit}button{cursor:pointer}button:focus-visible,input:focus-visible,textarea:focus-visible{outline:2px solid var(--cyan);outline-offset:3px}
+.layout{display:grid;grid-template-columns:245px minmax(0,1fr);min-height:100vh}.sidebar{border-right:1px solid var(--border);background:#0b1424;padding:28px 18px;display:flex;flex-direction:column;gap:28px}.brand{display:flex;align-items:center;gap:12px;font-weight:800;font-size:22px;letter-spacing:-.6px}.logo{display:grid;place-items:center;width:42px;height:42px;background:linear-gradient(140deg,#2858c8,#36b2cf);border-radius:13px;font-size:23px}.brand small{display:block;font-size:10px;font-weight:600;color:var(--muted);letter-spacing:2px}.nav-title,.eyebrow{color:#7f98b8;text-transform:uppercase;letter-spacing:1.8px;font-size:11px;font-weight:800}.nav-title{padding:0 12px;margin-bottom:10px}.nav-item{display:flex;align-items:center;gap:11px;border-radius:10px;padding:12px;color:#a6b7d1;font-size:14px}.nav-item.active{background:#18335a;color:#cde3ff;border:1px solid #2c5283}.sidebar-bottom{margin-top:auto;border:1px solid var(--border);padding:15px;border-radius:14px;background:var(--panel)}.status-dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--green);margin-right:8px;box-shadow:0 0 12px #32d49b77}.status-dot.off{background:var(--amber);box-shadow:none}
+.content{max-width:1330px;width:100%;margin:auto;padding:30px 38px 50px}.topbar{display:flex;align-items:center;justify-content:space-between;gap:16px;padding-bottom:25px;border-bottom:1px solid var(--border)}.topbar .crumb{color:var(--muted);font-size:13px}.topbar strong{color:var(--text)}.pill{display:inline-flex;align-items:center;gap:8px;background:#14243b;border:1px solid var(--border);padding:8px 12px;border-radius:30px;color:#bed2ea;font-size:12px}.hero{padding:34px 0 26px}.hero h1{font-size:clamp(29px,3vw,42px);line-height:1.13;letter-spacing:-1.4px;margin:10px 0}.hero p{color:var(--muted);max-width:650px;margin:0}.gradient{color:#78b7ff}
+.stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin-bottom:20px}.stat,.card{border:1px solid var(--border);background:linear-gradient(160deg,#121f34,#0e1829);border-radius:17px}.stat{padding:18px 20px}.stat .label{font-size:12px;color:var(--muted)}.stat .value{font-size:25px;font-weight:750;margin-top:6px;letter-spacing:-.6px}.stat .sub{font-size:11px;color:#7794b7;margin-top:4px}.main-grid{display:grid;grid-template-columns:minmax(0,1.28fr) minmax(320px,.85fr);gap:20px;align-items:start}.card{padding:23px}.card-title{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:6px}.card h2{font-size:17px;margin:0;letter-spacing:-.3px}.desc{font-size:13px;color:var(--muted);margin:4px 0 20px}.tag{border:1px solid #30517a;color:#94c5ff;border-radius:7px;padding:4px 8px;font-size:11px}
+label{display:block;color:#c8d8ee;font-size:13px;font-weight:650;margin:16px 0 9px}textarea,input{width:100%;background:#0b1526;border:1px solid #2a3b56;border-radius:11px;padding:13px 15px;color:var(--text);font-size:14px}textarea{min-height:175px;resize:vertical}textarea::placeholder,input::placeholder{color:#627998}.field-note{color:#7f96b6;font-size:11px;margin-top:6px}.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}.btn{border:1px solid #36527b;background:#17263d;color:#d8e8ff;border-radius:10px;padding:12px 17px;font-weight:700;font-size:13px}.btn.primary{background:linear-gradient(115deg,#2563eb,#3c88ff);border-color:#397bff;color:white;box-shadow:0 7px 24px #155ee52b}.btn:disabled{opacity:.6;cursor:wait}.error{background:#44202c;border:1px solid #a93e58;border-radius:10px;color:#ffd5dc;padding:12px;margin-top:14px;font-size:13px}.hidden{display:none!important}
+.result-card{min-height:370px}.empty{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:275px;text-align:center;gap:10px}.empty-icon{font-size:35px;background:#162c4a;border:1px solid #30527d;border-radius:18px;padding:16px}.empty strong{font-size:17px}.empty p{color:var(--muted);font-size:13px;max-width:290px;margin:0}.risk-badge{display:inline-block;border-radius:30px;padding:7px 12px;font-size:12px;font-weight:800;letter-spacing:.7px}.risk-badge.HIGH{background:#4b1d2b;color:#ff9da9}.risk-badge.MEDIUM{background:#48331c;color:#ffd18a}.risk-badge.LOW{background:#153d34;color:#7ef1bf}.risk-badge.UNKNOWN{background:#26374d;color:#b8cde8}.risk-score{font-size:40px;font-weight:800;letter-spacing:-1.5px;margin:12px 0 0}.risk-caption{color:var(--muted);font-size:12px}.meter{background:#25354c;border-radius:30px;height:9px;margin:16px 0 22px;overflow:hidden}.meter-fill{height:100%;width:0;transition:width .45s;background:var(--blue)}.detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.detail{background:#0c1728;border:1px solid #21324b;border-radius:11px;padding:12px;min-width:0}.detail .k{color:#8fa4c1;font-size:11px}.detail .v{font-size:14px;font-weight:700;overflow-wrap:anywhere;margin-top:4px}.recommend{margin-top:18px;padding:14px;border-left:3px solid var(--blue);background:#16243b;border-radius:9px;font-size:13px}.recommend strong{display:block;margin-bottom:5px}.reason-list{padding-left:18px;color:#bcd0e9;font-size:12px;overflow-wrap:anywhere}.reason-list li{margin-bottom:7px}.section-label{font-size:12px;font-weight:750;margin-top:20px}.urls{font-size:12px;color:#b8cde8;overflow-wrap:anywhere}.urls article{background:#0b1627;padding:10px;border-radius:8px;margin-top:7px}.footer{color:#7890ad;font-size:11px;margin-top:25px;line-height:1.7}.tip{margin-top:20px;padding:16px;background:#12263b;border:1px solid #214a66;border-radius:12px}.tip strong{color:#b5e9f2;font-size:13px}.tip p{color:#a2b7d0;font-size:12px;margin:6px 0 0}.history{margin-top:20px}.history-list{display:grid;gap:8px}.history-item{display:flex;justify-content:space-between;align-items:center;gap:12px;background:#0b1627;padding:10px 12px;border-radius:9px;font-size:12px}.history-item span{color:var(--muted)}.history-empty{font-size:12px;color:var(--muted)}.small-btn{padding:6px 9px;font-size:11px}.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}
+@media(max-width:1080px){.layout{grid-template-columns:1fr}.sidebar{flex-direction:row;align-items:center;padding:14px 22px;gap:15px}.nav-title,.sidebar-bottom,.sidebar nav{display:none}.content{padding:20px}.main-grid{grid-template-columns:1fr 1fr}}@media(max-width:760px){.main-grid,.stats{grid-template-columns:1fr}.content{padding:16px}.hero{padding:25px 0}.topbar{padding-bottom:16px}.card{padding:17px}.stat{padding:13px}.sidebar{padding:12px 16px}.topbar .pill{display:none}}
 </style>
 </head>
 <body>
-<header><h1>SafeNet</h1><p>AI-powered phishing &amp; scam detection</p></header>
-<main>
-  <div class="card">
-    <label for="text">Suspicious message (optional)</label>
-    <textarea id="text" placeholder="Paste an email, SMS or chat message here..."></textarea>
-    <div class="gap"><label for="url">Suspicious URL (optional)</label>
-    <input id="url" placeholder="http://example.com/login"></div>
-    <button id="go">Analyze</button>
-    <button class="ghost" id="demo" type="button">Try an example</button>
-    <div id="err" class="err hidden"></div>
-  </div>
-
-  <div id="result" class="card hidden">
-    <span id="level" class="badge"></span>
-    <div class="meter"><div id="bar"></div></div>
-    <div class="row">
-      <div><div class="k">Risk score</div><div class="v" id="score"></div></div>
-      <div><div class="k">Threat type</div><div class="v" id="type"></div></div>
-      <div><div class="k">Text model</div><div class="v" id="tp"></div></div>
-      <div><div class="k">URL model</div><div class="v" id="up"></div></div>
-    </div>
-    <div class="rec" id="rec"></div>
-    <div id="whyBox"><div class="k" style="margin-top:16px">Why was this flagged?</div><ul id="why"></ul></div>
-  </div>
-  <footer>Decision-support.</footer>
-</main>
+<div class="layout">
+<aside class="sidebar">
+<div class="brand"><div class="logo" aria-hidden="true">⬡</div><div>SafeNet<small>THREAT INTELLIGENCE</small></div></div>
+<nav aria-label="Workspace navigation"><div class="nav-title">Workspace</div><div class="nav-item active">◈ &nbsp; Threat Analyzer</div><div class="nav-item">◷ &nbsp; Session Activity</div></nav>
+<div class="sidebar-bottom"><div style="font-size:12px;font-weight:750"><span id="statusDot" class="status-dot"></span><span id="systemStatus">Checking API...</span></div><div style="font-size:11px;color:var(--muted);margin-top:7px">Detection engine connection</div></div>
+</aside>
+<div class="content">
+<div class="topbar"><div class="crumb">Workspace <span style="color:#526783">/</span> <strong>Threat Analyzer</strong></div><div class="pill">◆ &nbsp; AI-assisted security analysis</div></div>
+<section class="hero"><div class="eyebrow">SAFEGUARD YOUR DIGITAL WORLD</div><h1>Detect threats.<br><span class="gradient">Understand the evidence.</span></h1><p>Inspect suspicious messages and links with AI-assisted analysis. Understand risk signals and make more informed security decisions.</p></section>
+<section class="stats" aria-label="Current session statistics">
+<div class="stat"><div class="label">Scans this session</div><div class="value" id="scanCount">0</div><div class="sub">Resets when this page reloads</div></div>
+<div class="stat"><div class="label">High-risk results</div><div class="value" id="highCount">0</div><div class="sub">Based on model output</div></div>
+<div class="stat"><div class="label">Uncertain results</div><div class="value" id="unknownCount">0</div><div class="sub">Insufficient evidence</div></div>
+</section>
+<div class="main-grid">
+<section class="card" aria-labelledby="analyzerTitle">
+<div class="card-title"><h2 id="analyzerTitle">◈ &nbsp; New threat analysis</h2><span class="tag">LIVE API</span></div>
+<p class="desc">Enter a message, URL, or both. At least one field is required.</p>
+<form id="analyzeForm">
+<label for="text">Message content <span style="color:var(--muted);font-weight:400">(optional)</span></label>
+<textarea id="text" placeholder="Paste an email, SMS, chat message, or other suspicious text..." maxlength="20000"></textarea>
+<div class="field-note">An email address or short fragment alone may not provide enough evidence.</div>
+<label for="url">Suspicious URL <span style="color:var(--muted);font-weight:400">(optional)</span></label>
+<input id="url" type="text" placeholder="https://example.com/login" maxlength="2048" autocomplete="off" spellcheck="false">
+<div class="actions"><button id="go" class="btn primary" type="submit">⌕ &nbsp; Analyze threat</button><button class="btn" id="demo" type="button">Try phishing example</button><button class="btn" id="clear" type="button">Clear</button></div>
+<div id="err" class="error hidden" role="alert"></div>
+</form>
+<div class="tip"><strong>✦ &nbsp; Privacy reminder</strong><p>Avoid pasting passwords, OTPs, private keys, or other sensitive information. Submitted content is sent to this application's analysis server.</p></div>
+</section>
+<section class="card result-card" aria-labelledby="resultsTitle">
+<div class="card-title"><h2 id="resultsTitle">◉ &nbsp; Analysis report</h2><span id="resultTag" class="tag">AWAITING INPUT</span></div>
+<div id="empty" class="empty"><div class="empty-icon" aria-hidden="true">⌕</div><strong>Ready to investigate</strong><p>Your analysis will appear here with a risk assessment, supporting indicators, and recommended next steps.</p></div>
+<div id="result" class="hidden" aria-live="polite">
+<div style="margin-top:20px"><span id="level" class="risk-badge"></span></div>
+<div id="score" class="risk-score">—</div><div class="risk-caption">Estimated model risk score (not a verified threat probability)</div>
+<div class="meter" aria-label="Risk score meter"><div id="bar" class="meter-fill"></div></div>
+<div class="detail-grid"><div class="detail"><div class="k">Threat classification</div><div id="type" class="v">—</div></div><div class="detail"><div class="k">Text model output</div><div id="tp" class="v">—</div></div><div class="detail"><div class="k">URL model output</div><div id="up" class="v">—</div></div><div class="detail"><div class="k">URLs inspected</div><div id="urlCount" class="v">0</div></div></div>
+<div class="recommend"><strong>◈ &nbsp; Recommended action</strong><span id="rec"></span></div>
+<div id="whyBox" class="hidden"><div class="section-label">Detected indicators / explanation</div><ul id="why" class="reason-list"></ul></div>
+<div id="urlBox" class="hidden"><div class="section-label">URL inspection details</div><div id="urls" class="urls"></div></div>
+<div class="actions"><button id="copy" class="btn small-btn" type="button">Copy report</button></div>
+</div>
+</section>
+</div>
+<section class="card history" aria-labelledby="historyTitle"><div class="card-title"><h2 id="historyTitle">◷ &nbsp; Recent session activity</h2><span class="tag">IN MEMORY ONLY</span></div><p class="desc">Only summary results are shown here. Inputs are not saved in browser storage.</p><div id="history" class="history-list"><div class="history-empty">No analyses yet. Your recent scan summaries will appear here.</div></div></section>
+<footer class="footer">SafeNet is a decision-support prototype, not a guarantee of safety. Model scores can be wrong, and no live reputation lookup is implied. Never treat a LOW result as proof that a link is safe.</footer>
+</div></div>
 <script>
-const $ = id => document.getElementById(id);
-const COLORS = { LOW:'var(--low)', MEDIUM:'var(--med)', HIGH:'var(--high)' };
-const pct = v => v == null ? 'n/a' : (v * 100).toFixed(0) + '%';
-
-$('demo').onclick = () => {
-  $('text').value = 'URGENT: Your PayPal account has been suspended. Verify your password immediately at http://paypal-secure-login.xyz/verify/index.php?id=4821';
-  $('url').value = '';
-};
-
-$('go').onclick = async () => {
-  const text = $('text').value, url = $('url').value;
-  $('err').classList.add('hidden');
-  $('go').disabled = true; $('go').textContent = 'Analyzing...';
-  try {
-    const res = await fetch('/analyze', { method:'POST', headers:{'Content-Type':'application/json'},
-                                           body: JSON.stringify({ text, url }) });
-    if (!res.ok) throw new Error((await res.json()).detail || 'Request failed');
-    const d = await res.json();
-    $('level').textContent = d.risk_level + ' RISK'; $('level').className = 'badge ' + d.risk_level;
-    $('bar').style.width = d.risk_score + '%'; $('bar').style.background = COLORS[d.risk_level];
-    $('score').textContent = d.risk_score + ' / 100'; $('type').textContent = d.threat_type;
-    $('tp').textContent = pct(d.signals.text_probability); $('up').textContent = pct(d.signals.url_probability);
-    $('rec').textContent = d.recommendation;
-    $('why').innerHTML = '';
-    d.reasons.forEach(r => { const li = document.createElement('li'); li.textContent = r; $('why').appendChild(li); });
-    $('whyBox').classList.toggle('hidden', d.reasons.length === 0);
-    $('result').classList.remove('hidden');
-  } catch (e) { $('err').textContent = e.message; $('err').classList.remove('hidden'); }
-  $('go').disabled = false; $('go').textContent = 'Analyze';
-};
+'use strict';
+const $=id=>document.getElementById(id);
+const colors={HIGH:'var(--red)',MEDIUM:'var(--amber)',LOW:'var(--green)',UNKNOWN:'var(--muted)'};
+const pct=v=>v==null?'Not available':(Number(v)*100).toFixed(1)+'%';
+let scans=0,high=0,unknown=0,lastReport=null;
+const history=[];
+function setError(msg){$('err').textContent=msg;$('err').classList.remove('hidden')}
+function clearError(){$('err').textContent='';$('err').classList.add('hidden')}
+$('demo').addEventListener('click',()=>{$('text').value='URGENT: Your bank account has been suspended. Verify your password immediately at http://bank-account-verify.example/login';$('url').value='';clearError()});
+$('clear').addEventListener('click',()=>{$('text').value='';$('url').value='';clearError();$('result').classList.add('hidden');$('empty').classList.remove('hidden');$('resultTag').textContent='AWAITING INPUT';lastReport=null});
+async function checkHealth(){try{const r=await fetch('/health',{cache:'no-store'});if(!r.ok)throw Error('offline');$('systemStatus').textContent='API connected'}catch(e){$('systemStatus').textContent='API unavailable';$('statusDot').classList.add('off')}}
+checkHealth();
+function showReport(d){
+ const level=['HIGH','MEDIUM','LOW','UNKNOWN'].includes(d.risk_level)?d.risk_level:'UNKNOWN';
+ $('empty').classList.add('hidden');$('result').classList.remove('hidden');$('resultTag').textContent='ANALYSIS COMPLETE';
+ $('level').className='risk-badge '+level;$('level').textContent=level==='UNKNOWN'?'INSUFFICIENT EVIDENCE':level+' RISK';
+ const score=typeof d.risk_score==='number'&&Number.isFinite(d.risk_score)?Math.max(0,Math.min(100,d.risk_score)):null;
+ $('score').textContent=score===null?'N/A':score.toFixed(1)+' / 100';$('bar').style.width=(score??0)+'%';$('bar').style.background=colors[level];
+ $('type').textContent=d.threat_type||'Unclassified';$('tp').textContent=pct(d.signals?.text_probability);$('up').textContent=pct(d.signals?.url_probability);
+ const urls=Array.isArray(d.urls_analyzed)?d.urls_analyzed:[];$('urlCount').textContent=String(urls.length);$('rec').textContent=d.recommendation||'Review this result carefully.';
+ $('why').replaceChildren();const reasons=Array.isArray(d.reasons)?d.reasons:[];reasons.forEach(reason=>{const li=document.createElement('li');li.textContent=String(reason);$('why').append(li)});$('whyBox').classList.toggle('hidden',!reasons.length);
+ $('urls').replaceChildren();urls.forEach(item=>{const el=document.createElement('article');const heading=document.createElement('strong');heading.textContent=String(item.url||'URL');const detail=document.createElement('div');detail.textContent='Model output: '+pct(item.probability)+(Array.isArray(item.red_flags)&&item.red_flags.length?' · Flags: '+item.red_flags.join(', '):' · No heuristic flags reported');el.append(heading,detail);$('urls').append(el)});$('urlBox').classList.toggle('hidden',!urls.length);
+ lastReport={level,score,threat:d.threat_type,recommendation:d.recommendation,reasons,urls};
+ scans++;if(level==='HIGH')high++;if(level==='UNKNOWN')unknown++;$('scanCount').textContent=scans;$('highCount').textContent=high;$('unknownCount').textContent=unknown;
+ history.unshift({level,score,time:new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'})});if(history.length>5)history.pop();
+ $('history').replaceChildren();history.forEach(item=>{const row=document.createElement('div');row.className='history-item';const left=document.createElement('strong');left.textContent=item.level==='UNKNOWN'?'INSUFFICIENT EVIDENCE':item.level+' RISK';left.style.color=colors[item.level];const right=document.createElement('span');right.textContent=(item.score===null?'N/A':item.score.toFixed(1)+'/100')+' · '+item.time;row.append(left,right);$('history').append(row)});
+}
+$('analyzeForm').addEventListener('submit',async e=>{
+ e.preventDefault();clearError();const text=$('text').value.trim(),url=$('url').value.trim();
+ if(!text&&!url){setError('Enter a message or URL to analyze.');return}
+ const btn=$('go');btn.disabled=true;btn.textContent='Analyzing…';$('resultTag').textContent='PROCESSING';
+ try{const response=await fetch('/analyze',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({text,url})});const data=await response.json();if(!response.ok)throw Error(typeof data.detail==='string'?data.detail:'Analysis request failed');showReport(data)}
+ catch(err){setError('Analysis failed: '+err.message);$('resultTag').textContent='REQUEST FAILED'}
+ finally{btn.disabled=false;btn.textContent='⌕  Analyze threat'}
+});
+$('copy').addEventListener('click',async()=>{if(!lastReport)return;const r=lastReport;const text=['SafeNet Analysis Report','Classification: '+r.level,'Risk score: '+(r.score===null?'N/A':r.score+'/100'),'Threat: '+r.threat,'Recommendation: '+r.recommendation,'Indicators:',...r.reasons.map(x=>'- '+x)].join('\n');try{await navigator.clipboard.writeText(text);$('copy').textContent='Copied!';setTimeout(()=>$('copy').textContent='Copy report',1500)}catch(e){setError('Copy unavailable in this browser.')}});
 </script>
-</body>
-</html>
+</body></html>
