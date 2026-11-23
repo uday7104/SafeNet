@@ -1,4 +1,4 @@
-# SafeNet: AI-Powered Phishing & Scam Detection (prototype)
+# SafeNet: AI-Powered Phishing & Scam Detection 
 
 Pipeline: Input -> Pre-process -> Text AI -> URL AI -> Fusion -> Decision -> Guidance
 
